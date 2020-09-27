@@ -1,0 +1,23 @@
+FROM rust:1-slim-buster AS grapl-rust-base
+
+RUN apt-get update && apt-get install -y apt-utils musl musl-dev musl-tools protobuf-compiler libzstd-dev wget iproute2 netcat
+RUN wget -q https://github.com/mozilla/sccache/releases/download/0.2.13/sccache-0.2.13-x86_64-unknown-linux-musl.tar.gz && tar xvzf sccache-0.2.13-x86_64-unknown-linux-musl.tar.gz && cp sccache-0.2.13-x86_64-unknown-linux-musl/sccache /usr/bin/
+
+ENV PROTOC /usr/bin/protoc
+ENV PROTOC_INCLUDE /usr/include
+RUN adduser --disabled-password --gecos '' --home /home/grapl --shell /bin/bash grapl
+
+USER grapl
+ENV USER grapl
+WORKDIR /home/grapl
+RUN rustup target add x86_64-unknown-linux-musl
+
+#
+# SCCACHE
+#
+
+FROM grapl-rust-base AS grapl-rust-base-sccache
+USER grapl
+ENV USER grapl
+COPY --chown=grapl sccache /home/grapl/.cache/sccache
+
