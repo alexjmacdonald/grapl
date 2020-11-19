@@ -358,6 +358,16 @@ image=graphql-endpoint:
   tags:
     - "{env.TAG}"
 
+# utility images
+
+image=cypress:
+  image: grapl/cypress
+  context: test/cypress
+  dockerfile: Dockerfile
+  target: cypress
+  tags:
+    - "{env.TAG}"
+
 #
 # compose
 #
@@ -391,6 +401,8 @@ compose=integration-env:
     # js images
     - engagement-view
     - graphql-endpoint
+    # utility images
+    - cypress
 
 #
 # jobs -- these are where we build release artifacts
@@ -575,6 +587,13 @@ job=run-engagement-view-unit-tests:
   use: engagement-view-build
   command: /bin/bash -c "CI=true yarn test"
 
+job=run-engagement-view-integration-tests:
+  use: cypress
+  net-mode: grapl-integration-tests_default
+  command: cypress verify && cypress run
+  depends:
+    - integration-env
+
 job=build-graphql-endpoint:
   use: graphql-endpoint-build
   mounts:
@@ -584,6 +603,7 @@ job=build-graphql-endpoint:
 
 job=build-grapl-cdk:
   use: grapl-cdk-build
+
 
 # TODO: graphql endpoint unit tests
 
