@@ -591,6 +591,8 @@ job=run-engagement-view-integration-tests:
   use: cypress
   net-mode: grapl-integration-tests_default
   command: cypress verify && cypress run
+  env:
+    - CYPRESS_video=false # If this is true, it creates a video file of the browser running the test
   depends:
     - integration-env
 
