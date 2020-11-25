@@ -26,23 +26,6 @@ const lensNodeFilters = (args) => {
     ]
 }
 
-module.exports.defaultLensNodeResolver = (edgeName) => {
-    const LensNode = require('../node_types/lens_node.js').LensNodeType;
-
-    return {
-        type: LensNode,
-        args: lensNodeArgs(),
-        resolve: async(parent, args) => {
-            console.log("expanding defaultLensNodeResolver");
-            const expanded = await expandTo(getDgraphClient(), parent.uid, edgeName, lensNodeFilters(args), getEdge);
-            console.log ("expanded defaultLensNodeResolver", expanded);
-            return expanded;
-        }
-    
-    }
-};
-
-
 module.exports.defaultLensNodesResolver = (edgeName) => {
     const LensNode = require('../node_types/lens_node.js').LensNodeType;
 
