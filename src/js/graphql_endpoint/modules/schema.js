@@ -1,6 +1,6 @@
 const getDgraphClient = require('./dgraph_client.js').getDgraphClient;
 const getLenses = require('./API/queries/lenses.js').getLenses;
-const handleLensScope = require('./API/queries/lens_scope.js').handleLensScope;
+const getLensScope = require('./API/queries/lens_scope.js').getLensScope;
 const getNode = require('./API/queries/node.js').getNode;
 
 const LensWithErrors = require('../modules/API/error_types.js').LensWithErrors;
@@ -51,8 +51,8 @@ const RootQuery = new GraphQLObjectType({
                 },
                 resolve: async (parent, args) => {
                     try {
-                        console.log("handleLensScope")
-                        return await handleLensScope(parent, args);
+                        console.log("getLensScope")
+                        return await getLensScope(parent, args);
                     } catch (e) { 
                         console.log("Error: Lens Scope Query Failed ", e);
                         return errMsgs(500, 'Lens Scope'); 
