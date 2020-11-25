@@ -1,6 +1,6 @@
 const getDgraphClient = require('./dgraph_client.js').getDgraphClient;
 const getLenses = require('./API/queries/lenses.js').getLenses;
-const handleLensScope = require('./API/queries/lensScope.js').handleLensScope;
+const handleLensScope = require('./API/queries/lens_scope.js').handleLensScope;
 const getNode = require('./API/queries/node.js').getNode;
 
 const LensWithErrors = require('../modules/API/error_types.js').LensWithErrors;
